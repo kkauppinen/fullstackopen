@@ -1,0 +1,18 @@
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa
+palvelin-->selain: HTML -koodi
+selain-> palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/main.css
+palvelin->selain: main.css tyylitiedosto
+selain-> palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/spa.js
+palvelin->selain: spa.js tiedosto
+note over selain:
+Selain tekee GET pyynnön, ja saa sivun HTML koodin/perusrakenteen, tyylitiedoston
+sekä javascript tiedoston vastauksena. Selain aloittaa js suorittamisen, ja tekee
+uuden pyynnön dataa varten
+end note
+
+selain->palvelin: HTTP GET https://studies.cs.helsinki.fi/exampleapp/data.json
+palvelin->selain: data.json -tiedosto, [{..note}]
+note over selain:
+Pyynnön valmistuttua selain suorittaa tapahtumankäsittelijän ja muistiinpanot renderöidään
+näytölle.
+end note
