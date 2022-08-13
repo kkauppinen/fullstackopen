@@ -1,11 +1,9 @@
-export const PersonsList = ({persons}) => {
+export const PersonsList = ({persons, handleRemove}) => {
   return (
     <div>
       <ul>
         {persons.map((person) => (
-          <li key={person.name} >
-            {person.name} {person.number}
-          </li>
+          <li key={person.id}>{person.name} {person.number} <button onClick={() => handleRemove(person)}>Delete</button></li>
         ))}
       </ul>
     </div>
