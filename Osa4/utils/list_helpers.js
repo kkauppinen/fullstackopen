@@ -28,9 +28,27 @@ const mostBlogs = (blogs) => {
   );
 };
 
+const mostLikes = (blogs) => {
+  const authorsByLikes = blogs.reduce((value, { author, likes }) => {
+    if (!value[author]) {
+      value[author] = 0;
+    }
+    value[author] += likes;
+    return value;
+  }, {});
+
+  return Object.entries(authorsByLikes).reduce(
+    (acc, [key, value]) => {
+      return value > acc.likes ? { author: key, likes: value } : acc;
+    },
+    { author: undefined, likes: 0 }
+  );
+};
+
 module.exports = {
   dummy,
   totalLikes,
   favoriteBlog,
   mostBlogs,
+  mostLikes,
 };
