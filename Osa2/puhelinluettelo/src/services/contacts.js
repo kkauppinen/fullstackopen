@@ -7,7 +7,10 @@ export const getAll = () => {
 };
 
 export const create = (newContact) => {
-  return axios.post(baseUrl, newContact).then((res) => res.data);
+  return axios
+    .post(baseUrl, newContact)
+    .then((res) => res.data)
+    .catch((error) => error.response.data);
 };
 
 export const remove = (id) => {
@@ -16,4 +19,4 @@ export const remove = (id) => {
 
 export const update = (contact) => {
   return axios.put(`${baseUrl}/${contact.id}`, contact).then((res) => res.data);
-}
+};

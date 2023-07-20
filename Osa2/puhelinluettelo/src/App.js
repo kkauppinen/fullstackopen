@@ -64,15 +64,19 @@ const App = () => {
       }
     }
 
-    create({ name: newName, number: newNumber }).then((newContact) => {
-      setPersons([...persons, newContact]);
-      handleNotification({
-        className: "success",
-        message: `Added ${newContact.name}`,
-      });
+    create({ name: newName, number: newNumber }).then((response) => {
+      if (response.error) {
+        handleNotification({ className: "error", message: response.error });
+      } else {
+        setPersons([...persons, response]);
+        handleNotification({
+          className: "success",
+          message: `Added ${response.name}`,
+        });
+        setNewName("");
+        setNewNumber("");
+      }
     });
-    setNewName("");
-    setNewNumber("");
   };
 
   const handleRemove = (person) => {
@@ -90,13 +94,12 @@ const App = () => {
           handleNotification({
             className: "error",
             message: `${person.name} has already deleted from the server!`,
-          })
+          });
           const updatedPersons = persons.filter((p) => p.id !== person.id);
-            setPersons(updatedPersons);
+          setPersons(updatedPersons);
         });
     }
   };
-
   return (
     <div>
       <h2>Phonebook</h2>
