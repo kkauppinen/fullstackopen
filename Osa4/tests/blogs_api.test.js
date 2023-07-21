@@ -57,4 +57,30 @@ describe('POST /blogs', () => {
 
     expect(response.body.likes).toBe(0);
   });
+
+  test('blog cannot be saved without title', async () => {
+    const data = {
+      author: 'Michael Chan',
+      url: 'https://reactpatterns.com/',
+      likes: 1,
+    };
+
+    await api.post('/api/blogs').send(data).expect(400);
+
+    const expectedBlogs = await helper.blogsInDb();
+    expect(expectedBlogs.length).toBe(helper.initialBlogs.length);
+  });
+
+  test('blog cannot be saved without url', async () => {
+    const data = {
+      title: 'React patterns',
+      author: 'Michael Chan',
+      likes: 1,
+    };
+
+    await api.post('/api/blogs').send(data).expect(400);
+
+    const expectedBlogs = await helper.blogsInDb();
+    expect(expectedBlogs.length).toBe(helper.initialBlogs.length);
+  });
 });
