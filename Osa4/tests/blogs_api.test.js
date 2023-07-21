@@ -99,3 +99,17 @@ describe('DELETE /:id', () => {
     expect(titles).not.toContain(deletedBlog.title);
   });
 });
+
+describe('PUT /:id', () => {
+  test('existing blog can be updated', async () => {
+    const initialBlogs = await helper.blogsInDb();
+    const updatedBlog = initialBlogs[0];
+
+    const response = await api
+      .put(`/api/blogs/${updatedBlog.id}`)
+      .send({ ...updatedBlog, likes: 5 })
+      .expect(200);
+
+    expect(response.body.likes).toBe(5);
+  });
+});
