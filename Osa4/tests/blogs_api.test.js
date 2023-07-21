@@ -29,3 +29,20 @@ describe('GET /blogs', () => {
     });
   });
 });
+
+describe('POST /blogs', () => {
+  test('can add new blog', async () => {
+    const data = {
+      title: 'React patterns',
+      author: 'Michael Chan',
+      url: 'https://reactpatterns.com/',
+      likes: 2,
+    };
+
+    const response = await api.post('/api/blogs').send(data).expect(201);
+
+    expect(response.body.id).toBeDefined();
+    const expectedBlogs = await helper.blogsInDb();
+    expect(expectedBlogs.length).toBe(helper.initialBlogs.length + 1);
+  });
+});
