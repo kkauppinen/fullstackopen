@@ -84,3 +84,18 @@ describe('POST /blogs', () => {
     expect(expectedBlogs.length).toBe(helper.initialBlogs.length);
   });
 });
+
+describe('DELETE /:id', () => {
+  test('existing blog can be deleted', async () => {
+    const initialBlogs = await helper.blogsInDb();
+    const deletedBlog = initialBlogs[0];
+
+    await api.delete(`/api/blogs/${deletedBlog.id}`).expect(204);
+
+    const expectedBlogs = await helper.blogsInDb();
+    const titles = expectedBlogs.map(({ title }) => title);
+
+    expect(expectedBlogs.length).toBe(helper.initialBlogs.length - 1);
+    expect(titles).not.toContain(deletedBlog.title);
+  });
+});
