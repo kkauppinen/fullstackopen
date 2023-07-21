@@ -24,5 +24,8 @@ describe('GET /blogs', () => {
       .expect('Content-Type', /application\/json/);
 
     expect(response.body.length).toBe(helper.initialBlogs.length);
+    response.body.forEach((blog) => {
+      expect(blog.id).toBeDefined();
+    });
   });
 });
