@@ -45,4 +45,16 @@ describe('POST /blogs', () => {
     const expectedBlogs = await helper.blogsInDb();
     expect(expectedBlogs.length).toBe(helper.initialBlogs.length + 1);
   });
+
+  test('likes are set to zero if not defined', async () => {
+    const data = {
+      title: 'React patterns',
+      author: 'Michael Chan',
+      url: 'https://reactpatterns.com/',
+    };
+
+    const response = await api.post('/api/blogs').send(data).expect(201);
+
+    expect(response.body.likes).toBe(0);
+  });
 });
