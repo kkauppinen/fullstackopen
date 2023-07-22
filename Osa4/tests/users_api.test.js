@@ -50,4 +50,34 @@ describe('POST /users', () => {
     const usernames = allUsers.map((u) => u.username);
     expect(usernames).toContain(newUser.username);
   });
+
+  test('cannot create new user if username is too short', async () => {
+    const existingUsers = await helper.usersInDb();
+    const newUser = {
+      name: 'Simon',
+      username: 'Si',
+      password: 'drowssap',
+    };
+
+    const response = await api.post('/api/users').send(newUser).expect(400);
+    const allUsers = await helper.usersInDb();
+
+    expect(response.body.error).toBeDefined();
+    expect(allUsers).toHaveLength(existingUsers.length);
+  });
+
+  test('cannot create new user if password is too short', async () => {
+    const existingUsers = await helper.usersInDb();
+    const newUser = {
+      name: 'Simon',
+      username: 'theCat',
+      password: 'si',
+    };
+
+    const response = await api.post('/api/users').send(newUser).expect(400);
+    const allUsers = await helper.usersInDb();
+
+    expect(response.body).toEqual({ error: 'invalid user details' });
+    expect(allUsers).toHaveLength(existingUsers.length);
+  });
 });
