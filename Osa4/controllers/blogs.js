@@ -28,6 +28,11 @@ blogsRouter.post('/', async (request, response, next) => {
 });
 
 blogsRouter.delete('/:id', async (request, response, next) => {
+  const blog = await Blog.findById(request.params.id);
+
+  if (request.token.id !== blog.user.toString())
+    return response.status(403).json({ error: 'not authorized' });
+
   try {
     await Blog.findByIdAndRemove(request.params.id);
     response.status(204).end();
