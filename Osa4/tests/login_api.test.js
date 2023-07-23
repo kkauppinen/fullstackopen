@@ -9,7 +9,7 @@ const User = require('../models/user');
 
 beforeEach(async () => {
   await User.deleteMany({});
-  const passwordHash = await bcrypt.hash('ordwssap', 10);
+  const passwordHash = await bcrypt.hash('drowssap', 10);
   const user = new User({
     name: 'Simon',
     username: 'theCat',
@@ -27,7 +27,7 @@ describe('POST /login', () => {
   test('returns token when valid login details are given', async () => {
     const response = await api
       .post('/api/login')
-      .send({ username: 'theCat', password: 'ordwssap' })
+      .send({ username: 'theCat', password: 'drowssap' })
       .expect(200)
       .expect('Content-Type', /application\/json/);
 
