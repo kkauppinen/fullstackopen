@@ -29,7 +29,7 @@ const errorHandler = (error, request, response, next) => {
 };
 
 const tokenExtractor = (request, response, next) => {
-  const authorization = request.get('authorization');
+  const authorization = request.get('Authorization');
   if (!(authorization && authorization.startsWith('Bearer ')))
     return response.status(401).json({ error: 'invalid token' });
   let decodedToken;
