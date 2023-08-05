@@ -8,7 +8,7 @@ blogsRouter.get('/', async (request, response) => {
 });
 
 blogsRouter.post('/', async (request, response, next) => {
-  const user = await User.findById(request.token.id);
+  const { user } = request;
 
   const blog = new Blog({
     ...request.body,
@@ -28,9 +28,10 @@ blogsRouter.post('/', async (request, response, next) => {
 });
 
 blogsRouter.delete('/:id', async (request, response, next) => {
+  const { user } = request;
   const blog = await Blog.findById(request.params.id);
 
-  if (request.token.id !== blog.user.toString())
+  if (user._id !== blog.user.toString())
     return response.status(403).json({ error: 'not authorized' });
 
   try {

@@ -26,7 +26,12 @@ app.use(express.json());
 
 app.use('/api/users', usersRouter);
 app.use('/api/login', loginRouter);
-app.use('/api/blogs', middleware.tokenExtractor, blogsRouter);
+app.use(
+  '/api/blogs',
+  middleware.tokenExtractor,
+  middleware.userExtractor,
+  blogsRouter
+);
 
 app.use(middleware.unknownEndpoint);
 app.use(middleware.errorHandler);
