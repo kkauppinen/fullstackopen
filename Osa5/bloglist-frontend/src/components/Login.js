@@ -2,7 +2,7 @@ import { useState } from 'react';
 import loginService from '../services/login';
 import blogsService from '../services/blogs';
 
-const Login = ({ setUser }) => {
+const Login = ({ setUser, handleNotification }) => {
   const [credentials, setCredentials] = useState({
     username: '',
     password: '',
@@ -19,7 +19,15 @@ const Login = ({ setUser }) => {
       });
       setUser(user);
       blogsService.setToken(user.token);
+      handleNotification({
+        className: 'success',
+        message: `Welcome ${user.username}`,
+      });
     } catch (error) {
+      handleNotification({
+        className: 'error',
+        message: 'Incorrect username or password',
+      });
       console.log('login error', error);
     }
   };
