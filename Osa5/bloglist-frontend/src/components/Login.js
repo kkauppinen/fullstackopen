@@ -12,6 +12,7 @@ const Login = ({ setUser }) => {
     console.log('logging in with', credentials.username, credentials.password);
     try {
       const user = await loginService.login(credentials);
+      window.localStorage.setItem('user', JSON.stringify(user));
       setCredentials({
         username: '',
         password: '',
