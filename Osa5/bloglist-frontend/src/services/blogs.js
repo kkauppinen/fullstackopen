@@ -18,5 +18,13 @@ const getAll = () => {
     });
 };
 
+const create = (blog) => {
+  return axios
+    .post(baseUrl, blog, {
+      headers: { Authorization: token },
+    })
+    .then((response) => response.data);
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, setToken };
+export default { getAll, setToken, create };
