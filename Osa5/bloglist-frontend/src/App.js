@@ -73,7 +73,9 @@ const App = () => {
         b.id !== blog.id ? b : updatedBlog
       );
       setBlogs(updatedBlogs);
-    } catch (error) {}
+    } catch (error) {
+      console.log('error when updating', error);
+    }
   };
 
   const handleRemove = async (blog) => {
