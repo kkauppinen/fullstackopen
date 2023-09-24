@@ -26,5 +26,13 @@ const create = (blog) => {
     .then((response) => response.data);
 };
 
+const update = (id, data) => {
+  return axios
+    .put(`${baseUrl}/${id}`, data, {
+      headers: { Authorization: token },
+    })
+    .then((response) => response.data);
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, setToken, create };
+export default { getAll, setToken, create, update };

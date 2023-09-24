@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import blogService from './services/blogs';
+import blogsService from './services/blogs';
 import Login from './components/Login';
 import Blog from './components/Blog';
 import UserDetails from './components/UserDetails';
@@ -14,7 +14,7 @@ const App = () => {
 
   useEffect(() => {
     if (user) {
-      blogService.getAll(user).then((blogs) => setBlogs(blogs));
+      blogsService.getAll(user).then((blogs) => setBlogs(blogs));
     }
   }, [user]);
 
@@ -24,7 +24,7 @@ const App = () => {
     if (loggedInUser) {
       const parsedUser = JSON.parse(loggedInUser);
       setUser(parsedUser);
-      blogService.setToken(parsedUser.token);
+      blogsService.setToken(parsedUser.token);
     }
   }, []);
 
@@ -33,6 +33,22 @@ const App = () => {
     setTimeout(() => {
       setNotification(undefined);
     }, 3000);
+  };
+
+  const handleLike = async (blog) => {
+    const data = {
+      ...blog,
+      likes: blog.likes + 1,
+      id: undefined,
+      user: blog.user._id,
+    };
+    try {
+      const updatedBlog = await blogsService.update(blog.id, data);
+      const updatedBlogs = blogs.map((b) =>
+        b.id !== blog.id ? b : updatedBlog
+      );
+      setBlogs(updatedBlogs);
+    } catch (error) {}
   };
 
   return (
@@ -57,7 +73,7 @@ const App = () => {
           </Togglable>
           <h2>blogs</h2>
           {blogs.map((blog) => (
-            <Blog key={blog.id} blog={blog} />
+            <Blog key={blog.id} blog={blog} handleLike={handleLike} />
           ))}
         </>
       )}
