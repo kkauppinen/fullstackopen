@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import blogsService from './services/blogs';
 import Login from './components/Login';
 import Blog from './components/Blog';
@@ -11,6 +11,7 @@ const App = () => {
   const [blogs, setBlogs] = useState([]);
   const [user, setUser] = useState(null);
   const [notification, setNotification] = useState(undefined);
+  const blogFormRef = useRef(null);
 
   useEffect(() => {
     async function fetchBlogs() {
@@ -37,6 +38,26 @@ const App = () => {
     setTimeout(() => {
       setNotification(undefined);
     }, 3000);
+  };
+
+  const handleCreate = async (blog) => {
+    try {
+      const newBlog = await blogsService.create(blog);
+      blogFormRef.current.toggleShow();
+      handleNotification({
+        className: 'success',
+        message: `New blog ${newBlog.title} by ${newBlog.author} added`,
+      });
+      setBlogs((blogs) => [...blogs, newBlog]);
+    } catch (error) {
+      if (error.response) {
+        handleNotification({
+          className: 'error',
+          message: `Error in adding blog ${error.response.data.error}`,
+        });
+      }
+      console.log('New blog cannot be added', error);
+    }
   };
 
   const handleLike = async (blog) => {
@@ -88,11 +109,8 @@ const App = () => {
             />
           )}
           <UserDetails user={user} setUser={setUser} />
-          <Togglable buttonLabel="Add blog">
-            <BlogForm
-              setBlogs={setBlogs}
-              handleNotification={handleNotification}
-            />
+          <Togglable buttonLabel="Add blog" ref={blogFormRef}>
+            <BlogForm handleCreate={handleCreate} />
           </Togglable>
           <h2>blogs</h2>
           {blogs.map((blog) => (
