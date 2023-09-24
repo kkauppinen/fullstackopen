@@ -13,8 +13,12 @@ const App = () => {
   const [notification, setNotification] = useState(undefined);
 
   useEffect(() => {
+    async function fetchBlogs() {
+      const blogs = await blogsService.getAll(user);
+      setBlogs(blogs.sort((a, b) => b.likes - a.likes));
+    }
     if (user) {
-      blogsService.getAll(user).then((blogs) => setBlogs(blogs));
+      fetchBlogs();
     }
   }, [user]);
 
