@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-const Blog = ({ blog, handleLike }) => {
+const Blog = ({ blog, handleLike, handleRemove }) => {
   const [showAll, setShowAll] = useState(false);
 
   const toggleShow = () => {
@@ -31,6 +31,9 @@ const Blog = ({ blog, handleLike }) => {
             </button>
           </div>
           <div>{blog.user.username}</div>
+          <button type="button" onClick={() => handleRemove(blog)}>
+            Remove
+          </button>
         </>
       )}
     </div>

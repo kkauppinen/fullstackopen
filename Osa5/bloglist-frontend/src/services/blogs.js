@@ -34,5 +34,11 @@ const update = (id, data) => {
     .then((response) => response.data);
 };
 
+const remove = (id) => {
+  return axios.delete(`${baseUrl}/${id}`, {
+    headers: { Authorization: token },
+  });
+};
+
 // eslint-disable-next-line import/no-anonymous-default-export
-export default { getAll, setToken, create, update };
+export default { getAll, setToken, create, update, remove };
