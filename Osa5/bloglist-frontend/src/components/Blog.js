@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const Blog = ({ blog, handleLike, handleRemove }) => {
+const Blog = ({ blog, handleLike, handleRemove, showRemove }) => {
   const [showAll, setShowAll] = useState(false);
 
   const toggleShow = () => {
@@ -17,7 +17,7 @@ const Blog = ({ blog, handleLike, handleRemove }) => {
   };
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="blog">
       {blog.title} {blog.author}
       <button type="button" onClick={toggleShow}>
         {showAll ? 'Hide' : 'View'}
@@ -26,15 +26,17 @@ const Blog = ({ blog, handleLike, handleRemove }) => {
         <>
           <div>{blog.url}</div>
           <div>
-            {blog.likes}
+            <div>{blog.likes}</div>
             <button type="button" onClick={() => handleLike(blog)}>
               Like!
             </button>
           </div>
           <div>{blog.user.username}</div>
-          <button type="button" onClick={() => handleRemove(blog)}>
-            Remove
-          </button>
+          {showRemove && (
+            <button type="button" onClick={() => handleRemove(blog)}>
+              Remove
+            </button>
+          )}
         </>
       )}
     </div>

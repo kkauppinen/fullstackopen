@@ -99,17 +99,17 @@ const App = () => {
 
   return (
     <div>
+      {notification && (
+        <Notification
+          className={notification.className}
+          message={notification.message}
+        />
+      )}
       {!user && (
         <Login setUser={setUser} handleNotification={handleNotification} />
       )}
       {user && (
         <>
-          {notification && (
-            <Notification
-              className={notification.className}
-              message={notification.message}
-            />
-          )}
           <UserDetails user={user} setUser={setUser} />
           <Togglable buttonLabel="Add blog" ref={blogFormRef}>
             <BlogForm handleCreate={handleCreate} />
@@ -121,6 +121,7 @@ const App = () => {
               blog={blog}
               handleLike={handleLike}
               handleRemove={handleRemove}
+              showRemove={user.username === blog.user.username}
             />
           ))}
         </>
